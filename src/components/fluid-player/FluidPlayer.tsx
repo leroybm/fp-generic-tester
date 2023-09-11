@@ -2,7 +2,7 @@ import fluidPlayer from 'fluid-player';
 import './FluidPlayer.css';
 import {useEffect, useRef} from "react";
 
-export default function FluidPlayer({ playerOptions }: { playerOptions: Partial<FluidPlayerOptions> }) {
+export function FluidPlayer({ playerOptions }: { playerOptions: Partial<FluidPlayerOptions> }) {
   const videoHolderRef = useRef<HTMLDivElement>(null);
   const playerInstanceRef = useRef<FluidPlayerInstance | null>(null);
 

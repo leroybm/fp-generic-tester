@@ -1,24 +1,11 @@
 import {useState} from "react";
-import FluidPlayer from "./components/FluidPlayer/FluidPlayer.tsx";
-import FluidPlayerConfigForm from "./components/FluidPlayerConfigForm/FluidPlayerConfigForm.tsx";
 import {cloneDeep} from "lodash";
+import {FluidPlayer} from "./components/fluid-player/FluidPlayer.tsx";
+import {FluidPlayerConfigurator} from "./components/FluidPlayerConfigurator.tsx";
+import {defaultValues} from "./constants/fluidPlayerConfigs.ts";
 
 export default function App() {
-  const [playerOptions, setPlayerOptions] = useState<Partial<FluidPlayerOptions>>({
-    layoutControls: {
-      miniPlayer: {
-        enabled: true,
-        width: 200
-      },
-    },
-    onBeforeXMLHttpRequestOpen: (request) => console.log(request),
-    vastOptions: {
-      adList: [{
-        roll: "preRoll",
-        vastTag: "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="
-      }]
-    }
-  });
+  const [playerOptions, setPlayerOptions] = useState<Partial<FluidPlayerOptions>>(defaultValues);
 
   return (
     <div className="px-8 pt-4">
@@ -28,7 +15,7 @@ export default function App() {
           <FluidPlayer playerOptions={playerOptions}/>
         </section>
         <section>
-          <FluidPlayerConfigForm
+          <FluidPlayerConfigurator
             configuration={{options: playerOptions}}
             onSave={(newOptions) => {
               if (typeof newOptions.onBeforeXMLHttpRequestOpen === 'string') {
