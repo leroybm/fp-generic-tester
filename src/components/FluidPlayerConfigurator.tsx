@@ -1,15 +1,16 @@
 import {useState} from "react";
 import {FormMenu} from "./FormMenu.tsx";
 import {formMenuItems} from "../constants/formMenuItem.ts";
+import {ExtendedFluidPlayerOptions} from "../models/ConfiguratorOptions.ts";
 
 interface Configuration {
-  options: Partial<FluidPlayerOptions>,
+  options: Partial<ExtendedFluidPlayerOptions>,
   videoUrl?: string,
 }
 
 export function FluidPlayerConfigurator({configuration, onSave}: {
   configuration: Configuration,
-  onSave: (newOptions: Partial<FluidPlayerOptions>) => void
+  onSave: (newOptions: Partial<ExtendedFluidPlayerOptions>) => void
 }) {
   const [openedMenu, setOpenedMenu] = useState(formMenuItems[0].key);
   const [isDirty, setIsDirty] = useState(false);
@@ -26,7 +27,7 @@ export function FluidPlayerConfigurator({configuration, onSave}: {
   /**
    * Handles saving and disabling the dirty form state
    */
-  function handleSave(options: Partial<FluidPlayerOptions>) {
+  function handleSave(options: Partial<ExtendedFluidPlayerOptions>) {
     setIsDirty(false);
     onSave(options);
   }

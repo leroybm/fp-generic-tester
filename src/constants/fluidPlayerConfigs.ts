@@ -1,10 +1,12 @@
-export const defaultValues: Partial<FluidPlayerOptions> = {
+import {ExtendedFluidPlayerOptions} from "../models/ConfiguratorOptions";
+
+export const defaultValues: Partial<ExtendedFluidPlayerOptions> = {
   layoutControls: {
     primaryColor: '',
     posterImage: '',
     playButtonShowing: true,
     playPauseAnimation: true,
-    fillToContainer: true,
+    fillToContainer: false,
     autoPlay: false,
     preload: 'auto',
     mute: false,
@@ -13,15 +15,34 @@ export const defaultValues: Partial<FluidPlayerOptions> = {
     keyboardControl: true,
     title: '',
     loop: false,
+    playbackRateEnabled: false,
     logo: {
-      imageUrl: '',
+      imageUrl: null,
       position: 'top left',
-      clickUrl: '',
+      clickUrl: null,
       opacity: 1,
-      mouseOverImageUrl: '',
+      mouseOverImageUrl: null,
       imageMargin: '2px',
       hideWithControls: false,
-      showOverAds: false,
+      showOverAds: false
+    },
+    controlBar: {
+      autoHide: false,
+      autoHideTimeout: 3,
+      animated: true,
+      playbackRates: ['x2', 'x1.5', 'x1', 'x0.5']
+    },
+    timelinePreview: {
+      type: 'static',
+      frames: [{
+        startTime: 5,
+        endTime: 10,
+        image: '',
+        y: 0,
+        x: 0,
+        w: 0,
+        h: 0,
+      }]
     },
     miniPlayer: {
       enabled: true,
@@ -35,7 +56,7 @@ export const defaultValues: Partial<FluidPlayerOptions> = {
   },
 };
 
-export const completeConfiguration: Partial<FluidPlayerOptions> = {
+export const completeConfiguration: Partial<ExtendedFluidPlayerOptions> = {
   layoutControls: {
     miniPlayer: {
       enabled: true,

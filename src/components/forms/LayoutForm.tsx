@@ -6,18 +6,14 @@ import {SubmitButton} from "../SubmitButton.tsx";
 import {TextInput} from "../fields/TextInput.tsx";
 import {CheckboxInput} from "../fields/CheckboxInput.tsx";
 import {Select} from "../fields/Select.tsx";
-
-interface Configuration {
-  options: Partial<FluidPlayerOptions>,
-  videoUrl?: string,
-}
+import {ConfiguratorOptions, ExtendedFluidPlayerOptions} from "../../models/ConfiguratorOptions.ts";
 
 /**
  * This form is for the root options that can be found at https://docs.fluidplayer.com/docs/configuration/layout/
  */
 export function LayoutForm({ configuration, onSave, onDirty }: {
-  configuration: Configuration,
-  onSave: (newOptions: Partial<FluidPlayerOptions>) => void,
+  configuration: ConfiguratorOptions,
+  onSave: (newOptions: Partial<ExtendedFluidPlayerOptions>) => void,
   onDirty: () => void,
 }) {
   const {
@@ -25,7 +21,7 @@ export function LayoutForm({ configuration, onSave, onDirty }: {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<FluidPlayerOptions>({
+  } = useForm<ExtendedFluidPlayerOptions>({
     defaultValues: { ...cloneDeep(configuration.options) }
   });
 

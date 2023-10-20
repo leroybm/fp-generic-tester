@@ -5,13 +5,22 @@ interface TextInputProps<T extends FieldValues> {
   fieldName: Path<T>;
   required?: boolean;
   placeholder?: string;
+  validate?: (value: string) => boolean,
+  validateMessage?: string,
 }
 
-export function TextInput<T extends FieldValues>({ register, fieldName, required, placeholder }: TextInputProps<T>){
+export function TextInput<T extends FieldValues>({
+  register,
+  fieldName,
+  required,
+  placeholder,
+  validate,
+  validateMessage
+}: TextInputProps<T>){
   return <input
     className="border-gray-400 rounded border px-2 py-1 w-full"
     type="text"
     placeholder={placeholder || ''}
-    {...register(fieldName, { required: required })}
+    {...register(fieldName, { required, validate: validate && (value => validate(value) || validateMessage) })}
   />
 }

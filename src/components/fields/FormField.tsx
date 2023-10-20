@@ -21,7 +21,7 @@ export function FormField({label, children, errorMessage, forCheckbox, externalL
 
   return (
     <label className={`pb-2 w-full ${forCheckbox ? 'inline-block' : 'block'}`}>
-      {!forCheckbox && <p>{wrappedLabel}</p>}
+      {!forCheckbox && <p className="text-sm">{wrappedLabel}</p>}
       {children}
       {forCheckbox && <p className="inline pl-1">{wrappedLabel}</p>}
       <small className="text-red-500">{errorMessage ? <p>{errorMessage}</p> : null}</small>

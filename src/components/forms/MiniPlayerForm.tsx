@@ -7,15 +7,11 @@ import {useEffect} from "react";
 import {SubmitButton} from "../SubmitButton.tsx";
 import {TextInput} from "../fields/TextInput.tsx";
 import {Select} from "../fields/Select.tsx";
-
-interface Configuration {
-  options: Partial<FluidPlayerOptions>,
-  videoUrl?: string,
-}
+import {ConfiguratorOptions, ExtendedFluidPlayerOptions} from "../../models/ConfiguratorOptions.ts";
 
 export function MiniPlayerForm({ configuration, onSave, onDirty }: {
-  configuration: Configuration,
-  onSave: (newOptions: Partial<FluidPlayerOptions>) => void,
+  configuration: ConfiguratorOptions,
+  onSave: (newOptions: Partial<ExtendedFluidPlayerOptions>) => void,
   onDirty: () => void,
 }) {
   const {
@@ -23,7 +19,7 @@ export function MiniPlayerForm({ configuration, onSave, onDirty }: {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<FluidPlayerOptions>({
+  } = useForm<ExtendedFluidPlayerOptions>({
     defaultValues: { ...cloneDeep(configuration.options) }
   });
 

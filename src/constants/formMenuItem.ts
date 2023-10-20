@@ -1,8 +1,11 @@
 import {LayoutForm} from "../components/forms/LayoutForm.tsx";
 import {MiniPlayerForm} from "../components/forms/MiniPlayerForm.tsx";
 import {LogoForm} from "../components/forms/LogoForm.tsx";
+import {ControlBarForm} from "../components/forms/ControlBarForm.tsx";
+import {TimelinePreviewForm} from "../components/forms/TimelinePreviewForm.tsx";
 
-type FormComponents = typeof LayoutForm | typeof MiniPlayerForm | typeof LogoForm;
+type FormComponents = typeof LayoutForm | typeof MiniPlayerForm | typeof LogoForm | typeof ControlBarForm |
+  typeof TimelinePreviewForm;
 
 export interface FormMenuItem {
   label: string;
@@ -17,9 +20,19 @@ export const formMenuItems: FormMenuItem[] = [
     FormComponent: LayoutForm,
   },
   {
-    label: 'Logo',
+    label: 'Layout - Logo',
     key: 'logo',
     FormComponent: LogoForm,
+  },
+  {
+    label: 'Layout - Control Bar',
+    key: 'controlBar',
+    FormComponent: ControlBarForm,
+  },
+  {
+    label: 'Timeline Preview',
+    key: 'timelinePreview',
+    FormComponent: TimelinePreviewForm,
   },
   {
     label: 'Mini Player',
