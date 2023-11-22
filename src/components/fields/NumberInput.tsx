@@ -8,6 +8,7 @@ interface NumberInputProps<T extends FieldValues> {
   min?: number;
   max?: number;
   step?: number;
+  onChange?: () => void;
 }
 
 export function NumberInput<T extends FieldValues>({
@@ -18,6 +19,7 @@ export function NumberInput<T extends FieldValues>({
     min,
     max,
     step,
+    onChange
   }: NumberInputProps<T>) {
   return <input
     className="border-gray-400 rounded border px-2 py-1 w-full"
@@ -25,6 +27,7 @@ export function NumberInput<T extends FieldValues>({
     placeholder={placeholder || ''}
     step={step || 1}
     {...register(fieldName, {
+      onChange: () => onChange && onChange(),
       required: required ? { value: true, message: 'This field is required' } : false,
       min: min !== undefined ? { value: min, message: `Must be more than ${min}` } : Number.MIN_VALUE,
       max: max !== undefined ? { value: max, message: `Must be less than ${max}` } : Number.MAX_VALUE,

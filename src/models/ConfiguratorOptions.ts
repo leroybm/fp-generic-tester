@@ -3,6 +3,19 @@ interface MissingFluidPlayerOptions {
     controlBar: Partial<{
       playbackRates: string[]
     }>,
+    timelinePreview: VTTPreviewOptions | { 
+      type: 'static',
+      frames: Array<{
+        _id: string;
+        startTime: number;
+        endTime: number;
+        image: string;
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+      }>
+    };
   }>
 }
 

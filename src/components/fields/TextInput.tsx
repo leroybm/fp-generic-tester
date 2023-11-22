@@ -7,6 +7,7 @@ interface TextInputProps<T extends FieldValues> {
   placeholder?: string;
   validate?: (value: string) => boolean,
   validateMessage?: string,
+  onChange?: () => void,
 }
 
 export function TextInput<T extends FieldValues>({
@@ -15,12 +16,17 @@ export function TextInput<T extends FieldValues>({
   required,
   placeholder,
   validate,
-  validateMessage
+  validateMessage,
+  onChange
 }: TextInputProps<T>){
   return <input
     className="border-gray-400 rounded border px-2 py-1 w-full"
     type="text"
     placeholder={placeholder || ''}
-    {...register(fieldName, { required, validate: validate && (value => validate(value) || validateMessage) })}
+    {...register(fieldName, {
+      onChange: () => onChange && onChange(),
+      required,
+      validate: validate && (value => validate(value) || validateMessage)
+    })}
   />
 }

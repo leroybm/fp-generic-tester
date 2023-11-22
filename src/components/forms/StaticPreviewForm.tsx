@@ -20,10 +20,11 @@ interface StaticPreviewFormProps {
   value: FieldArrayWithId<ExtendedFluidPlayerOptions, "layoutControls.timelinePreview.frames", "id">;
   control: Control<ExtendedFluidPlayerOptions>;
   isOpen: boolean;
-  onClick: () => void;
+  onClickOpen: () => void;
+  onClickRemove: () => void;
 }
 
-export function StaticPreviewForm({ update, index, value, control, isOpen, onClick }: StaticPreviewFormProps) {
+export function StaticPreviewForm({ update, index, value, control, isOpen, onClickOpen, onClickRemove }: StaticPreviewFormProps) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: value
   });
@@ -32,47 +33,74 @@ export function StaticPreviewForm({ update, index, value, control, isOpen, onCli
     name: `layoutControls.timelinePreview.frames.${index}`
   });
 
+  const getTitleSection = () => <>
+    <p className="font-medium mb-1">Static Preview ({data?.startTime}s - {data?.endTime}s)</p>
+    <button className="font-light mr-1 text-sm hover:text-red-500 hover:transform-gpu origin-right hover:scale-105 transition ease-in" type="button" onClick={onClickRemove}>Remove</button>
+  </>;
+
   if (!isOpen) {
     return (
-      <button className={`border-2 rounded border-slate-400 mb-4 p-2 bg-top relative w-full text-left`} type="button" onClick={onClick}>
-        <p className="font-medium mb-1">Static Preview #{index+1} ({data?.startTime}s - {data?.endTime}s)</p>
-      </button>
+      <li className="border-2 rounded border-slate-400 mb-4 p-2 bg-top relative w-full text-left flex justify-between items-center cursor-pointer" onClick={onClickOpen}>
+        {getTitleSection()}
+      </li>
     );
   }
 
   return (
-    <div className={`border-2 rounded border-slate-400 mb-4 p-2 bg-top relative`}>
-      <p className="font-medium mb-1">Static Preview #{index+1}</p>
-
-      {data?.image && <div className={`w-full aspect-video bg-cover bg-center mb-2`} style={{ backgroundImage: `url(${data.image})` }} />}
+    <li className="border-2 rounded border-slate-400 mb-4 p-2 bg-top relative">
+      <div className="flex justify-between">
+        {getTitleSection()}
+      </div>
 
       <FormField
         label="Start Time"
         errorMessage={errors?.startTime?.message}
       >
-        <NumberInput register={register} fieldName="startTime" placeholder="10" required />
+        <NumberInput register={register} fieldName="startTime" placeholder="10" required onChange={handleSubmit((data) => update(index, data))} />
       </FormField>
 
       <FormField
         label="End Time"
         errorMessage={errors?.endTime?.message}
       >
-        <NumberInput register={register} fieldName="endTime" placeholder="10" required />
+        <NumberInput register={register} fieldName="endTime" placeholder="10" required onChange={handleSubmit((data) => update(index, data))} />
       </FormField>
 
       <FormField
         label="Image"
         errorMessage={errors?.image?.message}
       >
-        <TextInput register={register} fieldName="image" placeholder="10" required />
+        <TextInput register={register} fieldName="image" placeholder="https://placekitten.com/320/180" required onChange={handleSubmit((data) => update(index, data))} />
+        {data?.image && <div className={`w-full aspect-video bg-cover bg-center mt-2`} style={{ backgroundImage: `url(${data.image})` }} />}
       </FormField>
 
-      <button
-        type="button"
-        onClick={handleSubmit((data) => update(index, data))}
+      <FormField
+        label="Horizontal Position (Pixels)"
+        errorMessage={errors?.x?.message}
       >
-        Save
-      </button>
-    </div>
+        <NumberInput register={register} fieldName="x" placeholder="0" min={0} onChange={handleSubmit((data) => update(index, data))} />
+      </FormField>
+
+      <FormField
+        label="Vertical Position (Pixels)"
+        errorMessage={errors?.y?.message}
+      >
+        <NumberInput register={register} fieldName="y" placeholder="0" min={0} onChange={handleSubmit((data) => update(index, data))} />
+      </FormField>
+
+      <FormField
+        label="Width (Pixels)"
+        errorMessage={errors?.w?.message}
+      >
+        <NumberInput register={register} fieldName="w" placeholder="200" min={0} onChange={handleSubmit((data) => update(index, data))} />
+      </FormField>
+
+      <FormField
+        label="Height (Pixels)"
+        errorMessage={errors?.h?.message}
+      >
+        <NumberInput register={register} fieldName="h" placeholder="84" min={0} onChange={handleSubmit((data) => update(index, data))} />
+      </FormField>
+    </li>
   );
 }

@@ -35,9 +35,10 @@ export const defaultValues: Partial<ExtendedFluidPlayerOptions> = {
     timelinePreview: {
       type: 'static',
       frames: [{
+        _id: 0,
         startTime: 5,
         endTime: 10,
-        image: '',
+        image: 'https://placekitten.com/320/180',
         y: 0,
         x: 0,
         w: 0,

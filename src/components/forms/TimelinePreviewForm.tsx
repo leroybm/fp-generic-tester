@@ -1,7 +1,7 @@
-import {FieldError, FieldErrorsImpl, Merge, useFieldArray, useForm} from "react-hook-form";
+import {FieldArrayWithId, FieldError, FieldErrorsImpl, Merge, useFieldArray, useForm} from "react-hook-form";
 import {FormField} from "../fields/FormField.tsx";
-import {cloneDeep, omit} from "lodash";
-import {useEffect, useState} from "react";
+import {cloneDeep, omit, uniqueId} from "lodash";
+import {useEffect, useRef, useState} from "react";
 import {SubmitButton} from "../SubmitButton.tsx";
 import {Select} from "../fields/Select.tsx";
 import {ConfiguratorOptions, ExtendedFluidPlayerOptions} from "../../models/ConfiguratorOptions.ts";
@@ -12,10 +12,10 @@ import {StaticPreviewForm} from "./StaticPreviewForm.tsx";
 type VTTPreviewOptionsFieldError = Merge<FieldError, FieldErrorsImpl<NonNullable<VTTPreviewOptions>>>;
 
 const staticTimelineItemDefaults = {
-  id: '1',
+  _id: uniqueId(),
   startTime: 0,
-  endTime: 0.5,
-  image: '',
+  endTime: 5,
+  image: 'https://placekitten.com/200/84',
   x: 0,
   y: 0,
   w: 200,
@@ -39,7 +39,7 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
   } = useForm<ExtendedFluidPlayerOptions>({
     defaultValues: { ...cloneDeep(configuration.options) }
   });
-  const { fields: staticPreviews, append: appendStaticPreview, update: updateStaticPreview } = useFieldArray({
+  const { fields: staticPreviews, append: appendStaticPreview, update: updateStaticPreview, remove: removeStaticPreview } = useFieldArray({
     name: 'layoutControls.timelinePreview.frames',
     control
   })
@@ -58,12 +58,23 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
     return () => subscription.unsubscribe();
   }, [watch, onDirty]);
 
-  function addNewStaticPreview() {
-    const newStaticPreview = staticPreviews.length > 0 ?
-      omit(staticPreviews[staticPreviews.length - 1], 'id') :
-      staticTimelineItemDefaults
+  function validateTimings(staticPreviews: FieldArrayWithId<ExtendedFluidPlayerOptions, "layoutControls.timelinePreview.frames", "id">[]): boolean {
+    return staticPreviews.every((staticPreview, index) => {
+      return index === 0 ? true : staticPreview.startTime >= staticPreviews[index - 1].endTime;
+    })
+  }
 
-    appendStaticPreview(cloneDeep(newStaticPreview))
+  function addNewStaticPreview() {
+    if (staticPreviews.length === 0) {
+      return appendStaticPreview(cloneDeep(staticTimelineItemDefaults));
+    }
+
+    appendStaticPreview(cloneDeep({
+      ...staticPreviews[staticPreviews.length - 1],
+      _id: uniqueId(),
+      startTime: Number(staticPreviews[staticPreviews.length - 1].endTime),
+      endTime: Number(staticPreviews[staticPreviews.length - 1].endTime) + 5,
+    }));
   }
 
   return <form onSubmit={handleSubmit(onSave)}>
@@ -106,26 +117,26 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
     }
 
     {timelinePreviewType === 'static' &&
-      <div className="mb-4">
+      <ul className="mb-4">
         {staticPreviews.map((staticPreview, index) =>
           <StaticPreviewForm
-            key={staticPreview.id}
+            key={staticPreview._id}
             control={control}
             update={(...args) => {
-              setOpenPreviewIndex(null);
               updateStaticPreview(...args);
             }}
             index={index}
             value={staticPreview}
             isOpen={openPreviewIndex === index}
-            onClick={() => setOpenPreviewIndex(index)}
+            onClickOpen={() => setOpenPreviewIndex(index)}
+            onClickRemove={() => removeStaticPreview(index)}
           />
         )}
 
         <button type="button" className="block bg-blue-400 text-white rounded-full p-4 py-1 text-sm" onClick={addNewStaticPreview}>
           Add new static preview
         </button>
-      </div>
+      </ul>
     }
 
     <p>
@@ -137,6 +148,10 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
         Open Timeline Preview documentation in a new tab&nbsp;↗️
       </a>
     </p>
+
+    {validateTimings(staticPreviews) ? 'Timings are valid' : 'Timings are not valid'}
+
+    <br />
 
     <SubmitButton />
   </form>;
