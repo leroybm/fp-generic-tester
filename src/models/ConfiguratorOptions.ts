@@ -1,3 +1,17 @@
+export interface AdOptions {
+  vastTag: string;
+  roll: 'preRoll' | 'midRoll' | 'postRoll' | 'onPauseRoll';
+  fallbackVastTags?: Array<string>;
+  adText?: string;
+  adTextPosition?: 'top right' | 'top left' | 'bottom right' | 'bottom left';
+  adClickable?: boolean;
+  vAlign?: 'top' | 'middle' | 'bottom';
+  nonLinearDuration?: number;
+  size?: '468x60' | '300x250' | '728x90';
+  timer?: number | string;
+  _id: string;
+}
+
 interface MissingFluidPlayerOptions {
   layoutControls: Partial<{
     controlBar: Partial<{
@@ -16,7 +30,10 @@ interface MissingFluidPlayerOptions {
         h: number;
       }>
     };
-  }>
+  }>,
+  vastOptions: {
+    adList: Array<AdOptions>;
+  }
 }
 
 export type ExtendedFluidPlayerOptions = FluidPlayerOptions & MissingFluidPlayerOptions;

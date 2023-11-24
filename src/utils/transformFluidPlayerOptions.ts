@@ -11,20 +11,20 @@ export default function transformFluidPlayerOptions(options: Partial<ExtendedFlu
         console.log('function is ', options.onBeforeXMLHttpRequestOpen.toString());
     }
 
-    if (options?.vastOptions?.adList &&Array.isArray(options?.vastOptions?.adList)) {
+    if (options?.vastOptions?.adList && Array.isArray(options?.vastOptions?.adList)) {
         options.vastOptions.adList = options.vastOptions.adList.map(ad => {
             if (typeof ad.fallbackVastTags === 'string' && ad.fallbackVastTags !== '') {
                 ad.fallbackVastTags = (ad.fallbackVastTags as string).split(',');
             }
 
-            Object.keys(ad).forEach(key => {
-                if (ad[key] === '') {
-                    delete ad[key];
+            Object.keys(ad).forEach((key) => {
+                if (ad[key as keyof AdOptions] === '') {
+                    delete ad[key as keyof AdOptions];
                 }
             })
 
             return omit(ad, ['id', '_id']);
-        });
+        }) as typeof options.vastOptions.adList;
     }
 
     return options;

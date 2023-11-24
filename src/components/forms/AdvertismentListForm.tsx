@@ -1,16 +1,16 @@
 import { cloneDeep, uniqueId } from "lodash";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ConfiguratorOptions, ExtendedFluidPlayerOptions } from "../../models/ConfiguratorOptions.ts";
+import { ConfiguratorOptions, ExtendedFluidPlayerOptions, AdOptions } from "../../models/ConfiguratorOptions.ts";
 import { SubmitButton } from "../SubmitButton.tsx";
 import { AdvertismentForm } from "./AdvertismentForm.tsx";
 
-const advertismentDefaults: PreRollAdOptions | MidRollAdOptions | PostRollAdOptions | OnPauseRollAdOptions = {
+const advertismentDefaults: AdOptions = {
   _id: uniqueId(),
   roll: 'preRoll',
   vastTag: '',
   adClickable: true,
-} as unknown as PostRollAdOptions;
+} as AdOptions;
 
 /**
  * This form is for the root options that can be found at https://docs.fluidplayer.com/docs/configuration/ads/#adlist

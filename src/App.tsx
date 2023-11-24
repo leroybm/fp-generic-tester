@@ -3,9 +3,10 @@ import {cloneDeep} from "lodash";
 import {FluidPlayer} from "./components/fluid-player/FluidPlayer.tsx";
 import {FluidPlayerConfigurator} from "./components/FluidPlayerConfigurator.tsx";
 import {defaultValues} from "./constants/fluidPlayerConfigs.ts";
+import { ExtendedFluidPlayerOptions } from "./models/ConfiguratorOptions.ts";
 
 export default function App() {
-  const [playerOptions, setPlayerOptions] = useState<Partial<FluidPlayerOptions>>(defaultValues);
+  const [playerOptions, setPlayerOptions] = useState<Partial<ExtendedFluidPlayerOptions>>(defaultValues);
 
   return (
     <div className="px-8 pt-4">
