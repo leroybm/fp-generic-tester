@@ -1,8 +1,9 @@
-import {LayoutForm} from "../components/forms/LayoutForm.tsx";
-import {MiniPlayerForm} from "../components/forms/MiniPlayerForm.tsx";
-import {LogoForm} from "../components/forms/LogoForm.tsx";
-import {ControlBarForm} from "../components/forms/ControlBarForm.tsx";
-import {TimelinePreviewForm} from "../components/forms/TimelinePreviewForm.tsx";
+import { AdvertismentListForm } from "../components/forms/AdvertismentListForm.tsx";
+import { ControlBarForm } from "../components/forms/ControlBarForm.tsx";
+import { LayoutForm } from "../components/forms/LayoutForm.tsx";
+import { LogoForm } from "../components/forms/LogoForm.tsx";
+import { MiniPlayerForm } from "../components/forms/MiniPlayerForm.tsx";
+import { TimelinePreviewForm } from "../components/forms/TimelinePreviewForm.tsx";
 
 type FormComponents = typeof LayoutForm | typeof MiniPlayerForm | typeof LogoForm | typeof ControlBarForm |
   typeof TimelinePreviewForm;
@@ -38,5 +39,10 @@ export const formMenuItems: FormMenuItem[] = [
     label: 'Mini Player',
     key: 'miniPlayer',
     FormComponent: MiniPlayerForm
+  },
+  {
+    label: 'Advertisments',
+    key: 'advertisments',
+    FormComponent: AdvertismentListForm
   }
 ];

@@ -4,20 +4,26 @@ interface TextInputProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   fieldName: Path<T>;
   required?: boolean;
+  minLength?: number;
+  validate?: (value: string) => boolean;
   placeholder?: string;
-  validate?: (value: string) => boolean,
-  validateMessage?: string,
-  onChange?: () => void,
+  validateMessage?: string;
+  onChange?: () => void;
+  pattern?: RegExp;
+  patternMessage?: string;
 }
 
 export function TextInput<T extends FieldValues>({
   register,
   fieldName,
   required,
-  placeholder,
+  minLength,
   validate,
+  placeholder,
   validateMessage,
-  onChange
+  onChange,
+  pattern,
+  patternMessage
 }: TextInputProps<T>){
   return <input
     className="border-gray-400 rounded border px-2 py-1 w-full"
@@ -25,7 +31,10 @@ export function TextInput<T extends FieldValues>({
     placeholder={placeholder || ''}
     {...register(fieldName, {
       onChange: () => onChange && onChange(),
-      required,
+      
+      pattern: pattern && { value: pattern, message: patternMessage || `This field doesn't match the pattern` },
+      required: required ? { value: true, message: 'This field is required' } : false,
+      minLength: minLength !== undefined ? { value: minLength, message: `Must be longer than ${minLength}` } : Number.MIN_VALUE,
       validate: validate && (value => validate(value) || validateMessage)
     })}
   />

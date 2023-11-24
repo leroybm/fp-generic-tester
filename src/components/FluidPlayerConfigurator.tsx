@@ -2,6 +2,7 @@ import {useState} from "react";
 import {FormMenu} from "./FormMenu.tsx";
 import {formMenuItems} from "../constants/formMenuItem.ts";
 import {ExtendedFluidPlayerOptions} from "../models/ConfiguratorOptions.ts";
+import transformFluidPlayerOptions from "../utils/transformFluidPlayerOptions.ts";
 
 interface Configuration {
   options: Partial<ExtendedFluidPlayerOptions>,
@@ -29,7 +30,7 @@ export function FluidPlayerConfigurator({configuration, onSave}: {
    */
   function handleSave(options: Partial<ExtendedFluidPlayerOptions>) {
     setIsDirty(false);
-    onSave(options);
+    onSave(transformFluidPlayerOptions(options));
   }
 
   const { FormComponent  } = formMenuItems.find(menuItem => menuItem.key === openedMenu) || {};

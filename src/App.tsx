@@ -18,10 +18,6 @@ export default function App() {
           <FluidPlayerConfigurator
             configuration={{options: playerOptions}}
             onSave={(newOptions) => {
-              if (typeof newOptions.onBeforeXMLHttpRequestOpen === 'string') {
-                newOptions.onBeforeXMLHttpRequestOpen = new Function('return ' + newOptions.onBeforeXMLHttpRequestOpen)() as ((request: XMLHttpRequest) => void);
-                console.log('function is ', newOptions.onBeforeXMLHttpRequestOpen.toString());
-              }
               console.log('newOptions', newOptions);
 
               setPlayerOptions(cloneDeep(newOptions));

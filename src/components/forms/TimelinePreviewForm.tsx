@@ -1,13 +1,13 @@
-import {FieldArrayWithId, FieldError, FieldErrorsImpl, Merge, useFieldArray, useForm} from "react-hook-form";
-import {FormField} from "../fields/FormField.tsx";
-import {cloneDeep, omit, uniqueId} from "lodash";
-import {useEffect, useRef, useState} from "react";
-import {SubmitButton} from "../SubmitButton.tsx";
-import {Select} from "../fields/Select.tsx";
-import {ConfiguratorOptions, ExtendedFluidPlayerOptions} from "../../models/ConfiguratorOptions.ts";
-import {TextInput} from "../fields/TextInput.tsx";
-import {CheckboxInput} from "../fields/CheckboxInput.tsx";
-import {StaticPreviewForm} from "./StaticPreviewForm.tsx";
+import { cloneDeep, uniqueId } from "lodash";
+import { useEffect, useState } from "react";
+import { FieldArrayWithId, FieldError, FieldErrorsImpl, Merge, useFieldArray, useForm } from "react-hook-form";
+import { ConfiguratorOptions, ExtendedFluidPlayerOptions } from "../../models/ConfiguratorOptions.ts";
+import { SubmitButton } from "../SubmitButton.tsx";
+import { CheckboxInput } from "../fields/CheckboxInput.tsx";
+import { FormField } from "../fields/FormField.tsx";
+import { Select } from "../fields/Select.tsx";
+import { TextInput } from "../fields/TextInput.tsx";
+import { StaticPreviewForm } from "./StaticPreviewForm.tsx";
 
 type VTTPreviewOptionsFieldError = Merge<FieldError, FieldErrorsImpl<NonNullable<VTTPreviewOptions>>>;
 
@@ -23,7 +23,7 @@ const staticTimelineItemDefaults = {
 };
 
 /**
- * This form is for the root options that can be found at https://docs.fluidplayer.com/docs/configuration/layout/#logo
+ * This form is for the root options that can be found at https://docs.fluidplayer.com/docs/configuration/preview/
  */
 export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
   configuration: ConfiguratorOptions,
@@ -61,7 +61,7 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
   function validateTimings(staticPreviews: FieldArrayWithId<ExtendedFluidPlayerOptions, "layoutControls.timelinePreview.frames", "id">[]): boolean {
     return staticPreviews.every((staticPreview, index) => {
       return index === 0 ? true : staticPreview.startTime >= staticPreviews[index - 1].endTime;
-    })
+    })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
   }
 
   function addNewStaticPreview() {
@@ -75,6 +75,8 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
       startTime: Number(staticPreviews[staticPreviews.length - 1].endTime),
       endTime: Number(staticPreviews[staticPreviews.length - 1].endTime) + 5,
     }));
+
+    setOpenPreviewIndex(staticPreviews.length);
   }
 
   return <form onSubmit={handleSubmit(onSave)}>
@@ -87,6 +89,15 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
         values={['VTT', 'static']}
       />
     </FormField>
+
+    <p className="text-blue-700 mb-2">
+      <a
+        href="https://docs.fluidplayer.com/docs/configuration/preview/"
+        target="_blank"
+      >
+        Open Timeline Preview documentation in a new tab&nbsp;↗️
+      </a>
+    </p>
 
     {timelinePreviewType === 'VTT' &&
       <>
@@ -133,26 +144,14 @@ export function TimelinePreviewForm({ configuration, onSave, onDirty }: {
           />
         )}
 
-        <button type="button" className="block bg-blue-400 text-white rounded-full p-4 py-1 text-sm" onClick={addNewStaticPreview}>
-          Add new static preview
-        </button>
+        <li className="border-2 rounded border-slate-400 mb-4 p-2 bg-top relative w-full text-left flex justify-between items-center cursor-pointer" onClick={addNewStaticPreview}>
+          ➕ Add new Static Preview
+        </li>
       </ul>
     }
 
-    <p>
-      <a
-        className="text-blue-700"
-        href="https://docs.fluidplayer.com/docs/configuration/preview/"
-        target="_blank"
-      >
-        Open Timeline Preview documentation in a new tab&nbsp;↗️
-      </a>
-    </p>
+    {!validateTimings(staticPreviews) && <div className="mt-1 text-red-500">Invalid Timings</div>}
 
-    {validateTimings(staticPreviews) ? 'Timings are valid' : 'Timings are not valid'}
-
-    <br />
-
-    <SubmitButton />
+    <SubmitButton disabled={!validateTimings(staticPreviews)} />
   </form>;
 }

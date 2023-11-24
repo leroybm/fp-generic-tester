@@ -4,16 +4,6 @@ import {FormField} from "../fields/FormField.tsx";
 import {TextInput} from "../fields/TextInput.tsx";
 import {NumberInput} from "../fields/NumberInput.tsx";
 
-// interface StaticPreview {
-//   startTime: number;
-//   endTime: number;
-//   image: string;
-//   x: number;
-//   y: number;
-//   w: number;
-//   h: number;
-// }
-
 interface StaticPreviewFormProps {
   update: UseFieldArrayUpdate<ExtendedFluidPlayerOptions, "layoutControls.timelinePreview.frames">;
   index: number;
@@ -48,7 +38,7 @@ export function StaticPreviewForm({ update, index, value, control, isOpen, onCli
 
   return (
     <li className="border-2 rounded border-slate-400 mb-4 p-2 bg-top relative">
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         {getTitleSection()}
       </div>
 
