@@ -5,8 +5,13 @@ import { LogoForm } from "../components/forms/LogoForm.tsx";
 import { MiniPlayerForm } from "../components/forms/MiniPlayerForm.tsx";
 import { TimelinePreviewForm } from "../components/forms/TimelinePreviewForm.tsx";
 
-type FormComponents = typeof LayoutForm | typeof MiniPlayerForm | typeof LogoForm | typeof ControlBarForm |
-  typeof TimelinePreviewForm;
+type FormComponents =
+  | typeof LayoutForm
+  | typeof MiniPlayerForm
+  | typeof LogoForm
+  | typeof ControlBarForm
+  | typeof TimelinePreviewForm
+  | typeof AdvertismentListForm;
 
 export interface FormMenuItem {
   label: string;
@@ -16,33 +21,33 @@ export interface FormMenuItem {
 
 export const formMenuItems: FormMenuItem[] = [
   {
-    label: 'Layout',
-    key: 'layout',
+    label: "Layout",
+    key: "layout",
     FormComponent: LayoutForm,
   },
   {
-    label: 'Layout - Logo',
-    key: 'logo',
+    label: "Layout - Logo",
+    key: "logo",
     FormComponent: LogoForm,
   },
   {
-    label: 'Layout - Control Bar',
-    key: 'controlBar',
+    label: "Layout - Control Bar",
+    key: "controlBar",
     FormComponent: ControlBarForm,
   },
   {
-    label: 'Timeline Preview',
-    key: 'timelinePreview',
+    label: "Timeline Preview",
+    key: "timelinePreview",
     FormComponent: TimelinePreviewForm,
   },
   {
-    label: 'Mini Player',
-    key: 'miniPlayer',
-    FormComponent: MiniPlayerForm
+    label: "Mini Player",
+    key: "miniPlayer",
+    FormComponent: MiniPlayerForm,
   },
   {
-    label: 'Advertisments',
-    key: 'advertisments',
-    FormComponent: AdvertismentListForm
-  }
+    label: "Advertisments",
+    key: "advertisments",
+    FormComponent: AdvertismentListForm,
+  },
 ];

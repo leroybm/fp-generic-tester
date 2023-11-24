@@ -1,17 +1,20 @@
-import {useState} from "react";
-import {FormMenu} from "./FormMenu.tsx";
-import {formMenuItems} from "../constants/formMenuItem.ts";
-import {ExtendedFluidPlayerOptions} from "../models/ConfiguratorOptions.ts";
+import { useState } from "react";
+import { formMenuItems } from "../constants/formMenuItem.ts";
+import { ExtendedFluidPlayerOptions } from "../models/ConfiguratorOptions.ts";
 import transformFluidPlayerOptions from "../utils/transformFluidPlayerOptions.ts";
+import { FormMenu } from "./FormMenu.tsx";
 
 interface Configuration {
-  options: Partial<ExtendedFluidPlayerOptions>,
-  videoUrl?: string,
+  options: Partial<ExtendedFluidPlayerOptions>;
+  videoUrl?: string;
 }
 
-export function FluidPlayerConfigurator({configuration, onSave}: {
-  configuration: Configuration,
-  onSave: (newOptions: Partial<ExtendedFluidPlayerOptions>) => void
+export function FluidPlayerConfigurator({
+  configuration,
+  onSave,
+}: {
+  configuration: Configuration;
+  onSave: (newOptions: Partial<ExtendedFluidPlayerOptions>) => void;
 }) {
   const [openedMenu, setOpenedMenu] = useState(formMenuItems[0].key);
   const [isDirty, setIsDirty] = useState(false);
@@ -33,13 +36,15 @@ export function FluidPlayerConfigurator({configuration, onSave}: {
     onSave(transformFluidPlayerOptions(options));
   }
 
-  const { FormComponent  } = formMenuItems.find(menuItem => menuItem.key === openedMenu) || {};
+  const { FormComponent } = formMenuItems.find((menuItem) => menuItem.key === openedMenu) || {};
 
   return (
     <>
       <div className="grid grid-cols-[minmax(160px,_1fr)_3fr]">
         <FormMenu onMenuChange={handleChangeMenu} preventNavigation={isDirty} selectedItem={openedMenu} />
-        {FormComponent && <FormComponent configuration={configuration} onSave={handleSave} onDirty={() => setIsDirty(true)} />}
+        {FormComponent && (
+          <FormComponent configuration={configuration} onSave={handleSave} onDirty={() => setIsDirty(true)} />
+        )}
       </div>
     </>
   );
