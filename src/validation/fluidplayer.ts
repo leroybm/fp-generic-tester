@@ -112,4 +112,4 @@ import fluidPlayer from "fluid-player";
 // });
 
 // Use fluidPlayer variable to avoid unused import error, we are just using types from the package here.
-(() => typeof fluidPlayer === 'function')();
+(() => typeof fluidPlayer === "function")();
