@@ -8,7 +8,7 @@ import { AdvertismentForm } from "./AdvertismentForm.tsx";
 const advertismentDefaults: AdOptions = {
   _id: uniqueId(),
   roll: "preRoll",
-  vastTag: "",
+  vastTag: "https://",
   adClickable: true,
 } as AdOptions;
 

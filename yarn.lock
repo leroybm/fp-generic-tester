@@ -698,7 +698,7 @@
   resolved "https://registry.npmjs.org/@swc/types/-/types-0.1.4.tgz"
   integrity sha512-z/G02d+59gyyUb7KYhKi9jOhicek6QD2oMaotUyG+lUkybpXoV49dY9bj7Ah5Q+y7knK2jU67UTX9FyfGzaxQg==
 
-"@testing-library/dom@^9.0.0":
+"@testing-library/dom@^9.0.0", "@testing-library/dom@>=7.21.4":
   version "9.3.3"
   resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-9.3.3.tgz"
   integrity sha512-fB0R+fa3AUqbLHWyxXa2kGVtf1Fe1ZZFr0Zp6AIbIAzXb2mKbEXl+PCQNUOaq5lbTab5tfctfXRNsWXxa2f7Aw==
@@ -734,6 +734,11 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^9.0.0"
     "@types/react-dom" "^18.0.0"
+
+"@testing-library/user-event@^14.5.1":
+  version "14.5.1"
+  resolved "https://registry.npmjs.org/@testing-library/user-event/-/user-event-14.5.1.tgz"
+  integrity sha512-UCcUKrUYGj7ClomOo2SpNVvx4/fkd/2BbIHDCle8A0ax+P3bU7yJwDBDrS6ZwdTMARWTGODX1hEsCcO+7beJjg==
 
 "@tootallnate/once@2":
   version "2.0.0"
